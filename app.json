@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "JW-DiaryApp",
+    "slug": "JW-DiaryApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "JW-DiaryApp"
+}
