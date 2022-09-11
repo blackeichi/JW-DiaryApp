@@ -1,21 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import AppLoading from "expo-app-loading";
+import React, { useState, useEffect } from "react";
+import Realm from "realm";
+import { RecoilRoot } from "recoil";
+import { Router } from "./screen/Router";
+import { DBContext } from "./utils/context";
+
+const ThemeSchema = {
+  name: "Theme",
+  properties: {
+    themecolr: "string",
+  },
+};
 
 export default function App() {
+  const [ready, setReady] = useState(false);
+  const [realm, setRealm] = useState(null);
+  const startLoading = async () => {
+    const connection = await Realm.open({
+      schema: [ThemeSchema],
+    });
+    setRealm(connection);
+  };
+  const onFinish = () => setReady(true);
+  if (!ready) {
+    return (
+      <AppLoading
+        onError={console.error}
+        startAsync={startLoading}
+        onFinish={onFinish}
+      ></AppLoading>
+    );
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <DBContext.Provider value={realm}>
+      <Router />
+    </DBContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
