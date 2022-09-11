@@ -5,7 +5,7 @@ interface Color {
 }
 
 export const darkColor: Color = {
-  bgColor: "#113f67",
+  bgColor: "#142d4c",
   boxColor: "#38598b",
   lineColor: "#5585b5",
 };

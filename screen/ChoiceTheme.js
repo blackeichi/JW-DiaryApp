@@ -16,7 +16,11 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: #00a8ff;
+`;
+const Title = styled.Text`
+  font-size: 20px;
+  margin-top: 20px;
+  font-weight: 700;
 `;
 
 const Card = styled(Animated.createAnimatedComponent(View))`
@@ -39,7 +43,7 @@ const ChoiceBtn = styled.TouchableOpacity`
   width: 90%;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: #00a8ff;
   margin-bottom: 30px;
   border-radius: 5px;
 `;
@@ -103,7 +107,6 @@ export const ChoiceTheme = () => {
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (_, { dx }) => {
         position2.setValue(dx);
-        console.log(dx);
       },
       onPanResponderRelease: (_, { dx }) => {
         if (dx > 240) {
@@ -137,55 +140,69 @@ export const ChoiceTheme = () => {
     });
   };
   return (
-    <Container>
-      <Image
-        style={StyleSheet.absoluteFill}
-        source={{
-          uri: "https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_960_720.jpg",
-        }}
-      />
-      <BlurView
-        blurAmount={1}
-        blurType="light"
-        style={StyleSheet.absoluteFill}
-      />
-      <CardContainer>
-        <Card
-          {...(dark ? null : { ...secondRespoder.panHandlers })}
-          style={
+    <>
+      <Container>
+        <Image
+          style={StyleSheet.absoluteFill}
+          source={
             dark
-              ? { transform: [{ translateX: secondPosition }] }
-              : { transform: [{ translateX: position2 }] }
+              ? {
+                  uri: "https://cdn.pixabay.com/photo/2017/01/31/13/40/shooting-star-2024127_960_720.png",
+                }
+              : {
+                  uri: "https://cdn.pixabay.com/photo/2017/02/16/19/47/bokeh-2072271_960_720.jpg",
+                }
           }
-        >
-          <ThemeImg
-            style={StyleSheet.absoluteFill}
-            source={{
-              uri: "https://cdn.pixabay.com/photo/2017/02/16/19/47/bokeh-2072271_960_720.jpg",
-            }}
-          />
-          <ThemeText>Light Theme</ThemeText>
-        </Card>
-        <Card
-          {...(dark ? { ...panRespoder.panHandlers } : null)}
-          style={
-            dark
-              ? { transform: [{ translateX: position }] }
-              : { transform: [{ translateX: secondPosition2 }] }
-          }
-        >
-          <ThemeImg
-            style={StyleSheet.absoluteFill}
-            source={{
-              uri: "https://cdn.pixabay.com/photo/2016/11/25/23/15/moon-1859616_960_720.jpg",
-            }}
-          />
-          <ThemeText>Dark Theme</ThemeText>
-        </Card>
-      </CardContainer>
-      <ChoiceBtn onPress={onSubmit}>
-        <Text style={{ fontSize: 15, fontWeight: "700" }}>사용하기</Text>
-      </ChoiceBtn>
-    </Container>
+        />
+        <BlurView
+          blurAmount={5}
+          blurType={dark ? "black" : "light"}
+          style={StyleSheet.absoluteFill}
+        />
+        <Title style={{ color: dark ? "white" : "black" }}>
+          일기 테마 선택
+        </Title>
+        <CardContainer>
+          <Card
+            {...(dark ? null : { ...secondRespoder.panHandlers })}
+            style={
+              dark
+                ? { transform: [{ translateX: secondPosition }] }
+                : { transform: [{ translateX: position2 }] }
+            }
+          >
+            <ThemeImg
+              style={StyleSheet.absoluteFill}
+              source={{
+                uri: "https://cdn.pixabay.com/photo/2017/02/16/19/47/bokeh-2072271_960_720.jpg",
+              }}
+            />
+            <ThemeText>Light Theme</ThemeText>
+          </Card>
+          <Card
+            {...(dark ? { ...panRespoder.panHandlers } : null)}
+            style={
+              dark
+                ? { transform: [{ translateX: position }] }
+                : { transform: [{ translateX: secondPosition2 }] }
+            }
+          >
+            <ThemeImg
+              style={StyleSheet.absoluteFill}
+              source={{
+                uri: "https://cdn.pixabay.com/photo/2017/01/31/13/40/shooting-star-2024127_960_720.png",
+              }}
+            />
+            <ThemeText>Dark Theme</ThemeText>
+          </Card>
+        </CardContainer>
+
+        <ChoiceBtn onPress={onSubmit}>
+          <Text style={{ fontSize: 15, fontWeight: "700", color: "white" }}>
+            사용하기
+          </Text>
+        </ChoiceBtn>
+      </Container>
+    </>
   );
 };
