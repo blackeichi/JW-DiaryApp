@@ -1,5 +1,13 @@
+import { BlurView } from "@react-native-community/blur";
 import React, { useRef, useState } from "react";
-import { Animated, PanResponder, Text, View } from "react-native";
+import {
+  Animated,
+  Image,
+  PanResponder,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useDB } from "../utils/context";
@@ -26,11 +34,22 @@ const CardContainer = styled.View`
   justify-content: center;
   flex: 9;
 `;
-const Info = styled.Text`
-  flex: 0.5;
-`;
 const ChoiceBtn = styled.TouchableOpacity`
-  flex: 0.5;
+  height: 50px;
+  width: 90%;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  margin-bottom: 30px;
+  border-radius: 5px;
+`;
+const ThemeText = styled.Text`
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+`;
+const ThemeImg = styled.Image`
+  border-radius: 12px;
 `;
 
 export const ChoiceTheme = () => {
@@ -119,6 +138,17 @@ export const ChoiceTheme = () => {
   };
   return (
     <Container>
+      <Image
+        style={StyleSheet.absoluteFill}
+        source={{
+          uri: "https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_960_720.jpg",
+        }}
+      />
+      <BlurView
+        blurAmount={1}
+        blurType="light"
+        style={StyleSheet.absoluteFill}
+      />
       <CardContainer>
         <Card
           {...(dark ? null : { ...secondRespoder.panHandlers })}
@@ -128,7 +158,13 @@ export const ChoiceTheme = () => {
               : { transform: [{ translateX: position2 }] }
           }
         >
-          <Text>Hi</Text>
+          <ThemeImg
+            style={StyleSheet.absoluteFill}
+            source={{
+              uri: "https://cdn.pixabay.com/photo/2017/02/16/19/47/bokeh-2072271_960_720.jpg",
+            }}
+          />
+          <ThemeText>Light Theme</ThemeText>
         </Card>
         <Card
           {...(dark ? { ...panRespoder.panHandlers } : null)}
@@ -138,13 +174,18 @@ export const ChoiceTheme = () => {
               : { transform: [{ translateX: secondPosition2 }] }
           }
         >
-          <Text>hello</Text>
+          <ThemeImg
+            style={StyleSheet.absoluteFill}
+            source={{
+              uri: "https://cdn.pixabay.com/photo/2016/11/25/23/15/moon-1859616_960_720.jpg",
+            }}
+          />
+          <ThemeText>Dark Theme</ThemeText>
         </Card>
       </CardContainer>
       <ChoiceBtn onPress={onSubmit}>
-        <Text>선택</Text>
+        <Text style={{ fontSize: 15, fontWeight: "700" }}>사용하기</Text>
       </ChoiceBtn>
-      <Info>카드를 드래그하여 옆으로 넘기세요.</Info>
     </Container>
   );
 };
