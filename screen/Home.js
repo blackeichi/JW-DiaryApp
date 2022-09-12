@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { useRecoilValue } from "recoil";
 import { useDB } from "../utils/context";
 import styled from "styled-components/native";
 import LinearGradient from "react-native-linear-gradient";
 import { StyleSheet } from "react-native";
+import { Header } from "./Write";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.View`
   background-color: ${(props) => props.theme.bgColor};
@@ -23,6 +26,18 @@ export const Home = () => {
   const realm = useDB();
   const theme = realm.objects("Theme");
   const isDark = theme[0].themecolr === "dark";
+  const [diary, setDiary] = useState([]);
+  useEffect(() => {
+    const content = realm.objects("Text");
+    setDiary(content);
+    content.addListener(() => {
+      const content = realm.objects("Text");
+      setDiary(content);
+    });
+    return () => {
+      content.removeAllListeners();
+    };
+  }, []);
   return (
     <>
       <Container style={StyleSheet.absoluteFill}>
@@ -50,13 +65,20 @@ export const Home = () => {
         </Bgimg>
         <BackColor />
       </Container>
-      <Box>
-        <Text>home</Text>
-        <TouchableOpacity>
-          <Text onPress={() => realm.write(() => realm.delete(theme))}>
-            Choose Theme
-          </Text>
+      <Header>
+        <TouchableOpacity
+          onPress={() => realm.write(() => realm.delete(theme))}
+        >
+          <FontAwesomeIcon icon={faImage} color="white" size={25} />
         </TouchableOpacity>
+        <Text>home</Text>
+      </Header>
+      <Box>
+        {diary.map((content) => (
+          <View key={content._id}>
+            <Text>{content.title}</Text>
+          </View>
+        ))}
       </Box>
     </>
   );

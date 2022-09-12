@@ -7,9 +7,24 @@ import { DBContext } from "./utils/context";
 
 const ThemeSchema = {
   name: "Theme",
+  path: "DiaryTheme",
   properties: {
     themecolr: "string",
   },
+};
+const TextSchema = {
+  name: "Text",
+  path: "DiaryText",
+  properties: {
+    _id: "int",
+    emotion: "string",
+    title: "string",
+    content: "string",
+    year: "int",
+    month: "int",
+    date: "int",
+  },
+  primaryKey: "_id",
 };
 
 export default function App() {
@@ -17,7 +32,7 @@ export default function App() {
   const [realm, setRealm] = useState(null);
   const startLoading = async () => {
     const connection = await Realm.open({
-      schema: [ThemeSchema],
+      schema: [ThemeSchema, TextSchema],
     });
     setRealm(connection);
   };
@@ -31,6 +46,7 @@ export default function App() {
       ></AppLoading>
     );
   }
+
   return (
     <DBContext.Provider value={realm}>
       <NavigationContainer>

@@ -43,7 +43,7 @@ const ChoiceBtn = styled.TouchableOpacity`
   width: 90%;
   align-items: center;
   justify-content: center;
-  background-color: #00a8ff;
+  background-color: rgb(0, 122, 255);
   margin-bottom: 30px;
   border-radius: 5px;
 `;

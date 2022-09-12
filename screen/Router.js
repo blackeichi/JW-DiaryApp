@@ -10,7 +10,7 @@ import { Home } from "./Home";
 import { Weather } from "./Weather";
 import { Write } from "./Write";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faCloud, faHome, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = createBottomTabNavigator();
 
@@ -20,12 +20,12 @@ export const Router = () => {
   useEffect(() => {
     const theme = realm?.objects("Theme");
     setTheme(theme);
-    theme.addListener(() => {
+    theme?.addListener(() => {
       const theme = realm?.objects("Theme");
       setTheme(theme);
     });
     return () => {
-      theme.removeAllListeners();
+      theme?.removeAllListeners();
     };
   }, []);
   return (
@@ -44,23 +44,50 @@ export const Router = () => {
                 backgroundColor:
                   theme2[0].themecolr === "dark" ? "#142d4c" : "#ffb5b5",
                 borderTopWidth: 0,
-                fontSize: 18,
-                color: "white",
               },
+              tabBarShowLabel: false,
+              tabBarHideOnKeyboard: true,
             }}
           >
             <Nav.Screen
               options={{
-                tabBarShowLabel: false,
-                tabBarIcon: ({ size, color }) => (
-                  <FontAwesomeIcon icon={faHome} />
+                tabBarIcon: ({ focused, size, color }) => (
+                  <FontAwesomeIcon
+                    size={size}
+                    color={focused ? color : "white"}
+                    icon={faHome}
+                  />
                 ),
               }}
               name="Home"
               component={Home}
             />
-            <Nav.Screen name="Write" component={Write} />
-            <Nav.Screen name="Weather" component={Weather} />
+            <Nav.Screen
+              name="Write"
+              component={Write}
+              options={{
+                tabBarIcon: ({ focused, size, color }) => (
+                  <FontAwesomeIcon
+                    size={size}
+                    color={focused ? color : "white"}
+                    icon={faPlus}
+                  />
+                ),
+              }}
+            />
+            <Nav.Screen
+              name="Weather"
+              component={Weather}
+              options={{
+                tabBarIcon: ({ focused, size, color }) => (
+                  <FontAwesomeIcon
+                    size={size}
+                    color={focused ? color : "white"}
+                    icon={faCloud}
+                  />
+                ),
+              }}
+            />
           </Nav.Navigator>
         </ThemeProvider>
       )}
