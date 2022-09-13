@@ -7,7 +7,7 @@ interface Color {
 
 export const darkColor: Color = {
   bgColor: "#142d4c",
-  boxColor: "#38598b",
+  boxColor: "#113f67",
   lineColor: "#5585b5",
   textColor: "white",
 };

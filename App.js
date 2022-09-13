@@ -2,7 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import React, { useState, useEffect } from "react";
 import Realm from "realm";
-import { Router } from "./screen/Router";
+import { Router } from "./navigators/Router";
+import { Stack } from "./navigators/Stack";
 import { DBContext } from "./utils/context";
 
 const ThemeSchema = {
@@ -50,7 +51,7 @@ export default function App() {
   return (
     <DBContext.Provider value={realm}>
       <NavigationContainer>
-        <Router />
+        <Stack />
       </NavigationContainer>
     </DBContext.Provider>
   );

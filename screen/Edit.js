@@ -1,106 +1,30 @@
-import { faMarker, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
-import styled from "styled-components/native";
+import React, { useRef, useState } from "react";
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { useDB } from "../utils/context";
+import {
+  BigDate,
+  Body,
+  Container,
+  DateBox,
+  Emotion,
+  EmotionBox,
+  EmotionBox2,
+  EmotionBoxOpen,
+  EmotionText,
+  Header,
+  HeaderBtn,
+  HeaderSubmitBtn,
+  LittleDate,
+  Overlay,
+  TextTitle,
+  UnderLine,
+  WriteBox,
+  WriteText,
+} from "./Write";
 
-export const Container = styled.View`
-  flex: 1;
-  background-color: ${(props) => props.theme.bgColor};
-`;
-export const Header = styled.View`
-  height: 60px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
-`;
-export const HeaderBtn = styled.TouchableOpacity``;
-export const HeaderSubmitBtn = styled.TouchableOpacity`
-  background-color: rgb(0, 122, 255);
-  padding: 4px 10px;
-  border-radius: 5px;
-`;
-export const Body = styled.View`
-  flex: 1;
-  padding: 5px 10px;
-`;
-export const DateBox = styled.View`
-  flex-direction: row;
-  align-items: flex-end;
-`;
-export const BigDate = styled.Text`
-  color: white;
-  margin-right: 5px;
-  font-weight: 700;
-  font-size: 30px;
-`;
-export const UnderLine = styled.View`
-  background-color: ${(props) => props.theme.lineColor};
-  width: 36px;
-  height: 8px;
-  position: absolute;
-  bottom: 3px;
-`;
-export const LittleDate = styled.Text`
-  color: white;
-  margin-right: 5px;
-  margin-bottom: 3px;
-  font-weight: 700;
-  font-size: 15px;
-`;
-export const EmotionBoxOpen = styled.TouchableOpacity`
-  position: absolute;
-  right: 10px;
-  top: 5px;
-`;
-export const EmotionText = styled.Text`
-  font-size: 25px;
-`;
-export const WriteBox = styled.View`
-  margin-top: 10px;
-`;
-export const WriteText = styled.TextInput`
-  color: ${(props) => props.theme.textColor};
-  font-weight: 600;
-`;
-export const EmotionBox = styled.View`
-  position: absolute;
-  background-color: ${(props) => props.theme.bgColor};
-  width: 300px;
-  height: 150px;
-  top: 70px;
-  right: 20px;
-`;
-export const TextTitle = styled.Text`
-  color: white;
-  font-weight: 700;
-  padding: 13px 10px;
-  position: absolute;
-  font-size: 15px;
-`;
-export const EmotionBox2 = styled.View`
-  margin-top: 35px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-export const Emotion = styled.TouchableOpacity`
-  margin: 10px;
-`;
-export const Overlay = styled.View`
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-
-export const Write = ({ navigation: { goBack } }) => {
+export const Edit = () => {
   const emotions = ["😐", "😀", "😆", "🥰", "🤔", "😥", "🤬", "😷", "😨", "😴"];
   const [selectedEmo, setselectedEmo] = useState("😐");
   const [open, setOpen] = useState(true);
@@ -121,24 +45,7 @@ export const Write = ({ navigation: { goBack } }) => {
     nextInput.current.focus();
   };
   const realm = useDB();
-  const onSubmit = () => {
-    realm.write(() => {
-      realm.create("Text", {
-        _id: Date.now(),
-        emotion: selectedEmo,
-        title,
-        content: text,
-        year,
-        month,
-        date,
-      });
-    });
-    setselectedEmo("😐");
-    setOpen("");
-    setTitle("");
-    setText("");
-    goBack();
-  };
+  const onSubmit = () => {};
   return (
     <Container>
       <Header>
