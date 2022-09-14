@@ -147,12 +147,13 @@ export const Home = ({ navigation: { navigate, goBack } }) => {
               </DateBox>
               <DiaryEmo>{content.emotion}</DiaryEmo>
             </View>
-
-            <DiaryTitle>{content.title}</DiaryTitle>
-            <DiaryText>
-              {content.content.slice(0, 30)}
-              {content.content.length > 30 ? "..." : null}
-            </DiaryText>
+            {content.title ? <DiaryTitle>{content.title}</DiaryTitle> : null}
+            {content.content ? (
+              <DiaryText>
+                {content.content.slice(0, 30)}
+                {content.content.length > 30 ? "..." : null}
+              </DiaryText>
+            ) : null}
           </DiaryBox>
         ))}
       </Box>

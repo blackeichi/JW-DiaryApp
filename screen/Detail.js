@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import styled from "styled-components/native";
 import { useDB } from "../utils/context";
 import { DiaryText, DiaryTitle } from "./Home";
@@ -30,13 +30,22 @@ export const Detail = ({
     params: { params },
   },
 }) => {
+  const content = params.content;
   const realm = useDB();
   const onDelete = (id) => {
-    realm.write(() => {
-      const delText = realm.objectForPrimaryKey("Text", id);
-      realm.delete(delText);
-    });
-    navigation.goBack();
+    Alert.alert("삭제", "정말 삭제하시겠어요?", [
+      { text: "아니요", onPress: () => null, style: "cancel" },
+      {
+        text: "네",
+        onPress: () => {
+          realm.write(() => {
+            const delText = realm.objectForPrimaryKey("Text", id);
+            realm.delete(delText);
+          });
+          navigation.goBack();
+        },
+      },
+    ]);
   };
   return (
     <Container>
@@ -47,30 +56,34 @@ export const Detail = ({
         <View style={{ flexDirection: "row" }}>
           <HeaderBtn
             style={{ marginRight: 30 }}
-            onPress={() => navigation.navigate("Edit")}
+            onPress={() =>
+              navigation.navigate("Edit", {
+                params: { content },
+              })
+            }
           >
             <FontAwesomeIcon color="white" size={22} icon={faMarker} />
           </HeaderBtn>
-          <HeaderBtn onPress={() => onDelete(params.content._id)}>
+          <HeaderBtn onPress={() => onDelete(content._id)}>
             <FontAwesomeIcon color="white" size={22} icon={faTrash} />
           </HeaderBtn>
         </View>
       </Header>
       <Body>
         <EmotionBoxOpen>
-          <EmotionText>{params.content.emotion}</EmotionText>
+          <EmotionText>{content.emotion}</EmotionText>
         </EmotionBoxOpen>
         <DateBox>
           <View>
             <UnderLine />
-            <BigDate>{params.content.date}</BigDate>
+            <BigDate>{content.date}</BigDate>
           </View>
-          <LittleDate>{params.content.month}월</LittleDate>
-          <LittleDate>{params.content.year}</LittleDate>
+          <LittleDate>{content.month}월</LittleDate>
+          <LittleDate>{content.year}</LittleDate>
         </DateBox>
         <View style={{ marginTop: 10 }}>
-          <DiaryTitle>{params.content.title}</DiaryTitle>
-          <DiaryText>{params.content.content}</DiaryText>
+          <DiaryTitle>{content.title}</DiaryTitle>
+          <DiaryText>{content.content}</DiaryText>
         </View>
       </Body>
     </Container>

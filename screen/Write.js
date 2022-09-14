@@ -70,6 +70,7 @@ export const WriteBox = styled.View`
 export const WriteText = styled.TextInput`
   color: ${(props) => props.theme.textColor};
   font-weight: 600;
+  width: 100%;
 `;
 export const EmotionBox = styled.View`
   position: absolute;
@@ -134,7 +135,7 @@ export const Write = ({ navigation: { goBack } }) => {
       });
     });
     setselectedEmo("😐");
-    setOpen("");
+    setOpen(true);
     setTitle("");
     setText("");
     goBack();
@@ -174,7 +175,7 @@ export const Write = ({ navigation: { goBack } }) => {
           <WriteText
             ref={nextInput}
             onChangeText={onChangeText}
-            returnKeyType="done"
+            returnKeyType="go"
             placeholder="여기에 더 많이 쓰세요..."
             placeholderTextColor="gray"
             value={text}

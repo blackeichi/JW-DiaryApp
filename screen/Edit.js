@@ -24,16 +24,18 @@ import {
   WriteText,
 } from "./Write";
 
-export const Edit = () => {
+export const Edit = ({
+  navigation: { goBack, navigate },
+  route: {
+    params: { params },
+  },
+}) => {
+  const content = params.content;
   const emotions = ["😐", "😀", "😆", "🥰", "🤔", "😥", "🤬", "😷", "😨", "😴"];
-  const [selectedEmo, setselectedEmo] = useState("😐");
+  const [selectedEmo, setselectedEmo] = useState(content.emotion);
   const [open, setOpen] = useState(true);
-  const Today = new Date();
-  const year = Today.getFullYear();
-  const month = Today.getMonth();
-  const date = Today.getDate();
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [title, setTitle] = useState(content.title);
+  const [text, setText] = useState(content.content);
   const onChangeTitle = (content) => {
     setTitle(content);
   };
@@ -45,7 +47,19 @@ export const Edit = () => {
     nextInput.current.focus();
   };
   const realm = useDB();
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    if (title === content.title && text === content.content) {
+      return goBack();
+    } else {
+      realm.write(() => {
+        const editText = realm.objectForPrimaryKey("Text", content._id);
+        editText.title = title;
+        editText.content = text;
+        editText.emotion = selectedEmo;
+      });
+      navigate("Home");
+    }
+  };
   return (
     <Container>
       <Header>
@@ -63,10 +77,10 @@ export const Edit = () => {
         <DateBox>
           <View>
             <UnderLine />
-            <BigDate>{Today.getDate()}</BigDate>
+            <BigDate>{content.date}</BigDate>
           </View>
-          <LittleDate>{Today.getMonth()}월</LittleDate>
-          <LittleDate>{Today.getFullYear()}</LittleDate>
+          <LittleDate>{content.month}월</LittleDate>
+          <LittleDate>{content.year}</LittleDate>
         </DateBox>
         <WriteBox>
           <WriteText
