@@ -111,7 +111,7 @@ export const Weather = () => {
             <>
               <City>{city}</City>
               <WeatherBox>
-                <Degree>{parseFloat(day?.temp?.day).toFixed(1)}:</Degree>
+                <Degree>{parseFloat(day?.temp?.day).toFixed(1)}</Degree>
                 <Dot />
                 {day?.weather[0] ? (
                   <>
