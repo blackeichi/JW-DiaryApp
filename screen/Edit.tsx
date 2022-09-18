@@ -48,7 +48,11 @@ export const Edit = ({
   };
   const realm = useDB();
   const onSubmit = () => {
-    if (title === content.title && text === content.content) {
+    if (
+      title === content.title &&
+      text === content.content &&
+      selectedEmo === content.emotion
+    ) {
       return goBack();
     } else {
       realm.write(() => {
